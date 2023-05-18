@@ -2,28 +2,35 @@
 $(document).ready(function () {
     // 関数「subject_points」に「国語、英語、数学、理科、社会」の点数の配列を代入します。
     function subject_points() {
+        console.log("関数spが呼ばれました");
         let subject_points = [Number($('#national_language').val()),
         Number($('#english').val()),
         Number($('#mathematics').val()),
         Number($('#science').val()),
         Number($('#society').val())
         ];
+        return subject_points;
     }
     // 「国語、英語、数学、理科、社会」の点数（入力値）を取得して合計点と平均点を出すロジック
-    function sum () {
+    function sum() {
         let sum = 0;
-        for(let i=0;i>subject_points.length;i++){
+        let subject_points = subject_points();
+        for(let i=0;i<subject_points.length;i++){
             sum += subject_points[i];
+            console.log(sum);
+            console.log(subject_points[i]);
+            console.log("sumが呼ばれました");
         }
         return sum;
     }
     // 「国語、英語、数学、理科、社会」の点数（入力値）を取得して平均点を出すロジック
-    function average () {
-        let average = sum / subject_points.length;
+    function average() {
+        let average = sum() / subject_points.length;
         return average;
     }
     function score_indicate() {
         // 「合計点：」(id="sum_indicate")に変数「sum」(合計点)を出力させます。
+        console.log("score_indicateが呼ばれました");
         $("#sum_indicate").text(sum());
         // 「平均点：」に各教科の平均点を出力する処理を記述する。
         $("#average_indicate").text(average());
