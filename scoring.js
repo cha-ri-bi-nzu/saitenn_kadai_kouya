@@ -2,30 +2,29 @@
 $(document).ready(function () {
     // 関数「subject_points」に「国語、英語、数学、理科、社会」の点数の配列を代入します。
     function subject_points() {
-        console.log("関数spが呼ばれました");
-        let subject_points = [Number($('#national_language').val()),
+        //動作確認用 → console.log("関数spが呼ばれました");
+        let subject_point = [Number($('#national_language').val()),
         Number($('#english').val()),
         Number($('#mathematics').val()),
         Number($('#science').val()),
         Number($('#society').val())
         ];
-        return subject_points;
+        return subject_point;
     }
     // 「国語、英語、数学、理科、社会」の点数（入力値）を取得して合計点と平均点を出すロジック
     function sum() {
         let sum = 0;
-        let subject_points = subject_points();
-        for(let i=0;i<subject_points.length;i++){
-            sum += subject_points[i];
+        for(let i = 0; i < subject_points().length; i++){
+            sum += subject_points()[i];
             console.log(sum);
-            console.log(subject_points[i]);
-            console.log("sumが呼ばれました");
+            console.log(subject_points()[i]);
+            // 動作確認用 → console.log("sumが呼ばれました");
         }
         return sum;
     }
     // 「国語、英語、数学、理科、社会」の点数（入力値）を取得して平均点を出すロジック
     function average() {
-        let average = sum() / subject_points.length;
+        let average = sum() / subject_points().length;
         return average;
     }
     function score_indicate() {
@@ -60,8 +59,8 @@ $(document).ready(function () {
     // 各教科の点数を取得し、取得した点数から「合格、不合格」の判断を下すロジックを作ります。
     function get_pass_or_failure() {
         // 変数「judge」に"合格"を代入しておきます。
-        for (let i=0;i<subject_points.length;i++) {
-            if (subject_points[i] < 60) {
+        for (let i=0;i<subject_points().length;i++) {
+            if (subject_points()[i] < 60) {
                 return "不合格";
             }
         }
@@ -74,7 +73,8 @@ $(document).ready(function () {
         // 変数「pass_or_failure」に「get_pass_or_failure()の戻り値」を代入します。
         let pass_or_failure = get_pass_or_failure();
         // 「最終ジャッジ」(id="alert-indicate)ボタンを押したら「あなたの成績は${achievement}です。${pass_or_failure}です。」が出力される処理です。
-        $('#declaration').append(`<label id="alert-indicate" class="alert alert-info">あなたの成績は${achievement}です。${pass_or_failure}です。</label>`);
+        $('#declaration')
+        .append(`<label id="alert-indicate" class="alert alert-info">あなたの成績は${achievement}です。${pass_or_failure}です。</label>`);
     };
     // [国語の点数,英語の点数,数学の点数,理科の点数,社会の点数]のいずれかの点数が変更された際に「function score_indicate()」を発火させる処理です。
     $('#national_language, #english, #mathematics, #science, #society').change(function () {
@@ -92,6 +92,8 @@ $(document).ready(function () {
     // ２回目以降に「最終ジャッジ」ボタンを押した際は、それまでに表示していたジャッジのHTML要素を削除して、新たなジャッジのHTML要素を追加する。
     // ヒント：removeメソッドについて調べてみましょう。
     $('#btn-declaration').click(function () {
+        $('#alert-indicate').remove();
+        $('#declaration').text(judgement());
     });
 });
 
